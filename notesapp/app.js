@@ -4,6 +4,8 @@ const notes = require('./notes')();
 
 const log = console.log;
 
+debugger;
+
 // Customize yargs version
 yargs.version('1.1.0')
 

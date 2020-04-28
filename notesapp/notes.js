@@ -40,7 +40,7 @@ function notes() {
     }
     const saveNotes = notes => {
         const stringifyNotes = JSON.stringify(notes);
-        fs.writeFileSync(fileName, stringifyNotes)
+        fs.writeFileSync(fileName, stringifyNotes);
     }
     return {
         getNotes,
