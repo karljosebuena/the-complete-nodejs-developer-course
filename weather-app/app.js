@@ -1,8 +1,12 @@
 const request = require('request');
+const geoService = require('./utils/geoService');
+const weatherSerice = require('./utils/weatherService');
 
-const main = async () => {
-    const country = 'India'
-    const mapboxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${country}.json?access_token=pk.eyJ1Ijoia2FybGpvc2VidWVuYSIsImEiOiJjazlrbTI1MWIwMGw4M2RuNW1kZXFxbjVjIn0.Zghwkkgcn4bQ5J2Sm2L7ag`;
+const { geoLocatePlace } = geoService(request);
+const { getWeatherInfo } = weatherSerice(request);
+
+const main = async (country) => {
+    const mapboxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(country)}.json?access_token=pk.eyJ1Ijoia2FybGpvc2VidWVuYSIsImEiOiJjazlrbTI1MWIwMGw4M2RuNW1kZXFxbjVjIn0.Zghwkkgcn4bQ5J2Sm2L7ag`;
     console.log('Start checking the weather...');
     const coordinates = await new Promise((resolve, reject) => {
         request({ url: mapboxUrl, json: true }, (err, response) => {
@@ -25,7 +29,6 @@ const main = async () => {
 
     const weatherInfo = await new Promise((resolve, reject) => {
         const weatherStackUrl = `http://api.weatherstack.com/current?access_key=65c17b961a33b46ee92d8c2f9f8832f0&query=${coordinates.latitude},${coordinates.longitude}`;
-        console.log(weatherStackUrl);
         request({ url: weatherStackUrl, json: true }, (err, response) => {
             if (err) {
                 reject(err);
@@ -43,5 +46,18 @@ const main = async () => {
     console.log(weatherInfo)
     console.log('Done checking the weather...');
 }
+// main('India');
 
-main();
+const place = process.argv[2];
+if (!place)
+    return console.log('Plese provide an address to locate.');
+geoLocatePlace(place, (err, data) => {
+    if (err)
+        return console.log('Error:', err);
+    console.log('Data:', data);
+    getWeatherInfo(data, (err, data = {}) => {
+        if (err)
+            return console.log('Error:', err);
+        console.log('Data:', data);
+    })
+});
