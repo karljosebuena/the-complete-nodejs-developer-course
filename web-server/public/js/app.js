@@ -4,7 +4,7 @@ const successMessage = document.querySelector('#successMessage');
 const errorMessage = document.querySelector('#errorMessage');
 
 const fetchForecast = (location) => {
-    const url = `http://localhost:4000/weather?address=${encodeURIComponent(location)}`;
+    const url = `/weather?address=${encodeURIComponent(location)}`;
     return fetch(url)
         .then(response => response.json())
         .catch(err => err )
