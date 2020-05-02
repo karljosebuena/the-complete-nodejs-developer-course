@@ -10,7 +10,7 @@ function weatherService(request) {
             } else if (!body.location.name) {
                 callback('Weather service cannot find the place.', null);
             } else {
-                callback(null, `It's currently ${body.current.temperature} degrees out, but feels like ${body.current.feelslike} out here in ${placeName}.`);
+                callback(null, `The weather is ${body.current.weather_descriptions}. It's currently ${body.current.temperature} degrees out, but feels like ${body.current.feelslike} out here in ${placeName}.`);
             }
         })
     }
