@@ -12,7 +12,13 @@
 <body>
     {{>header}}
     <div class="main-content">
-        <p>use this site to get your weather</p>
+        <p>{{message}}</p>
+        <form action="" method="get">
+            <input type="text" placeholder="Enter your location">
+            <button>Search</button>
+        </form>
+        <p id="successMessage"></p>
+        <p id="errorMessage"></p>
     </div>
     {{>footer}}
     <script src="/js/app.js"></script>

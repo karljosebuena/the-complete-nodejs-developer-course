@@ -54,6 +54,19 @@ img.me {
     margin-bottom: 20px;
 }
 
+input {
+    border: 1px solid #cccccc;
+    padding: 8px;
+}
+
+button {
+    cursor: pointer;
+    border: 1px solid #888888;
+    background: #888888;
+    color: white;
+    padding: 8px;
+}
+
 footer {
     color: #888888;
     border-top: 1px solid #eeeeee;

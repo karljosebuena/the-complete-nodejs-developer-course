@@ -1,8 +1,13 @@
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
+const request = require('request');
+const geoService = require('./utils/geoService')(request);
+const weatherServie = require('./utils/weatherService')(request);
 
 const app = express();
+const { geoLocatePlace } = geoService;
+const { getWeatherInfo } = weatherServie;
 
 // Port setting
 const port = process.env.PORT || 3000;
@@ -24,7 +29,8 @@ app.use(express.static(publicDir));
 app.get('/', (req, res) => {
     res.render('index', {
         title: 'Index',
-        name: 'Karl Jose Buena'
+        name: 'Karl Jose Buena',
+        message: 'Use this app to get your weather.',
     });
 });
 
@@ -37,10 +43,21 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/weather', (req, res) => {
-    res.render('weather', {
-        title: 'Weather',
-        name: 'Karl Jose Buena',
-        message: 'Weather app you can use to check your weather.'
+    if (!req.query.address)
+        return res.send({
+            error: 'Addres is required.'
+        })
+
+    const { address } = req.query;
+    geoLocatePlace(address, (err, data) => {
+        if (err) return res.send({ error: err });
+        getWeatherInfo(data, (err, data) => {
+            if (err) return res.send({ error: err });
+            res.send({
+                forecast: data,
+                address
+            });
+        })
     });
 });
 
