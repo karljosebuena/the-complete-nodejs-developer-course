@@ -38,7 +38,7 @@ app.get('/about', (req, res) => {
     res.render('about', {
         title: 'About',
         name: 'Karl Jose Buena',
-        message: 'I\'m a Fullstack Engineer/Calisthenics Practitioner/Frustrated Basketball Player'
+        message: 'I\'m a Fullstack Engineer/Calisthenics Practitioner/Frustrated Basketball Player.'
     });
 });
 
